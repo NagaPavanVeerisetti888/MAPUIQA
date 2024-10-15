@@ -1,0 +1,7 @@
+app:
+  url: "https://map-dev-ui.azurewebsites.net/"
+  username: "NagaVeerisetti@bftg.com"
+  password: "Automation@123"
+
+browser:
+  type: "chrome"

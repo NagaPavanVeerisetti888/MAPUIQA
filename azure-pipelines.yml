@@ -1,0 +1,28 @@
+trigger:
+ - develop
+pool:
+ vmImage: ubuntu-latest
+steps:
+ # Use Python 3.11
+ - task: UsePythonVersion@0
+   inputs:
+     versionSpec: '3.11'
+   displayName: Use Python $(python.version)
+ # Install dependencies
+ - script: |
+     python -m pip install --upgrade pip
+     pip install -r requirements.txt
+     pip install pytest pytest-azurepipelines pytest-cov
+   displayName: Install dependencies
+ # Run tests with pytest and collect coverage
+ - script: |
+     pytest tests/ 
+   displayName: Run tests with pytest and collect coverage
+ # Publish test results
+ - task: PublishTestResults@2
+   inputs:
+     testResultsFormat: JUnit
+     testResultsFiles: '*/test-output.xml'
+   condition: succeededOrFailed()
+  # Publish code coverage results
+
