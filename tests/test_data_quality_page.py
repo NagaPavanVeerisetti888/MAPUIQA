@@ -1,6 +1,5 @@
 import time
 import pytest
-
 from tests.locators.welcome_page_locators import WelcomePageLocators
 from tests.pages.login_page import LoginPage
 import logging
@@ -11,8 +10,6 @@ from tests.pages.login_page import LoginPage
 from tests.pages.data_quality_management_page import DataQualityManagementPage
 from tests.locators.data_quality_management_locators import DataQualityManagementLocators
 
-def test_print(browser, config):
-   print(f"This is my dummy test case")
 
 def test_mouse_hover(browser, config):
    """
@@ -26,7 +23,6 @@ def test_mouse_hover(browser, config):
    page.is_visible(DataQualityManagementLocators.DQMPageBanner)
    page.hover_over_element(DataQualityManagementLocators.AgencyColumn)
    assert page.is_visible(DataQualityManagementLocators.ToolTip)
-   time.sleep(10)
 
 
 def test_username_visible(browser, config):
@@ -37,7 +33,5 @@ def test_username_visible(browser, config):
    logging.info("Starting testcase id 29092.")
    page = WelcomePage(browser)
    username = page.get_element_text(WelcomePageLocators.UsernameBadge)
-   print(f"{username}")
    app_config = config['app']['username']
-   print(f"{app_config.split('@')[0]}")
    assert app_config.split('@')[0] == username.replace(' ', '')
