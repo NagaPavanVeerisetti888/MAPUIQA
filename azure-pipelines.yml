@@ -16,7 +16,7 @@ steps:
    displayName: Install dependencies
  # Run tests with pytest and collect coverage
  - script: |
-     pytest tests/ 
+     pytest tests/
    displayName: Run tests with pytest and collect coverage
  # Publish test results
  - task: PublishTestResults@2
