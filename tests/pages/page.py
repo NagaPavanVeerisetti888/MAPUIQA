@@ -5,6 +5,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 import logging
 from selenium.common.exceptions import (TimeoutException, ElementNotInteractableException,
                                         ElementClickInterceptedException, WebDriverException)
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class Page:
@@ -82,14 +83,28 @@ class Page:
                 exc_info=True)
             return False
 
+    # def get_element_text(self, by_locator):
+    #     try:
+    #         element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(by_locator))
+    #         text = element.text
+    #         self.logger.info(f"Text retrieved from element with locator: {by_locator} is {text}")
+    #         return text
+    #     except Exception as e:
+    #         self.logger.error(f" Error retrieving text from element with locator: {by_locator}. Error: {e}", exc_info=True)
+    #         # return ""
+
     def get_element_text(self, by_locator):
         try:
-            element = WebDriverWait(self.driver, 10).until(EC.presence_of_element_located(by_locator))
-            text = element.text
-            self.logger.info(f"Text retrieved from element with locator: {by_locator} is {text}")
+            element = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located(by_locator)
+            )
+            # Use JavaScript to fetch text content in case of rendering issues
+            text = self.driver.execute_script("return arguments[0].textContent;", element).strip()
+            self.logger.info(f"Text retrieved from element with locator: {by_locator} is '{text}'")
             return text
         except Exception as e:
-            self.logger.error(f" Error retrieving text from element with locator: {by_locator}. Error: {e}", exc_info=True)
+            self.logger.error(f"Error retrieving text from element with locator: {by_locator}. Error: {e}",
+                              exc_info=True)
             return ""
 
     def navigate_to(self, url):
@@ -107,3 +122,13 @@ class Page:
             self.logger.info(f"Hovered over element with locator: {by_locator}")
         except Exception as e:
             self.logger.error(f"Error hovering over element with locator: {by_locator}")
+            raise e
+
+
+    def get_page_title(self):
+        try:
+            page_title = self.driver.title
+            return page_title
+        except Exception as e:
+            self.logger.error(f"Error in fetching the title of the page")
+            raise e
