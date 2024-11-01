@@ -53,6 +53,47 @@ The project is a web-based application designed to automate and manage Data Qual
   - Custom exceptions (e.g., `ElementNotFoundException`, `NavigationException`, `LoginPageException`) improve error reporting and handling.
   - A logging configuration (`logging_config.py`) is set up for detailed logging of test execution, aiding in debugging and monitoring test runs. The logging issue will be addressed to ensure this system works as intended.
 
+Framework Files and Functionality Descriptions
+------------------------------------------------
+
+azure-pipelines.yml: Configuration for Azure Pipelines, setting up CI/CD.
+
+requirements.txt: Lists all Python package dependencies for the project.
+
+tests/_init_.py: Marks the tests directory as a Python package.
+
+tests/config.py: Handles test configuration, loading from YAML and command line.
+
+tests/config.yaml: Contains configuration for tests, like base URL and browser type.
+
+tests/conftest.py: Defines fixtures for pytest, setting up and tearing down browser instances.
+
+tests/locators/_init_.py: Marks the locators directory as a Python package.
+
+tests/locators/data_quality_management_locators.py: Defines locators for elements on the Data Quality Management page.
+
+tests/locators/login_page_locators.py: Defines locators for elements on the login page.
+
+tests/locators/welcome_page_locators.py: Defines locators for elements on the welcome page.
+
+tests/pages/_init_.py: Marks the pages directory as a Python package.
+
+tests/pages/data_quality_management_page.py: Page object for the Data Quality Management page, encapsulating element interactions.
+
+tests/pages/login_page.py: Page object for the login page, encapsulating element interactions and verifications.
+
+tests/pages/page.py: Base class for page objects, providing common functionalities.
+
+tests/pages/welcome_page.py: Page object for the welcome page, encapsulating element interactions.
+
+tests/test_data_quality_page.py: Test cases for verifying functionalities on the Data Quality Management page.
+
+tests/utils/_init_.py: Marks the utils directory as a Python package.
+
+tests/utils/exceptions.py: Defines custom exceptions for the test framework.
+
+tests/utils/logging_config.py: Configures logging for the test framework.
+
 - **Selenium WebDriver Configuration:**
   - Configured to run tests in headless mode for browsers like Chrome, with options for running in non-headless mode for interactive debugging.
   - Supports multiple browsers, though primarily configured for Chrome in the provided setup.
