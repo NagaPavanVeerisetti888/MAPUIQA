@@ -1,0 +1,58 @@
+### Project Description
+
+The project is a web-based application designed to automate and manage Data Quality Management (DQM) processes. It facilitates user login, data visualization, and interaction with various data quality management features. The application offers a user-friendly interface for navigating through different sections, ensuring efficient management and visualization of data quality tasks.
+
+### Features
+
+1. **User Authentication:**
+   - Allows users to log in using their credentials (username and password).
+   - Supports validation of user inputs and displays appropriate feedback for login success or failure.
+
+2. **Navigation and User Interface:**
+   - A Welcome Page that serves as the entry point after successful login, featuring navigation options to different sections of the application.
+   - A Data Quality Management Page that users can access to manage and visualize data quality-related tasks.
+
+3. **Data Visualization and Interaction:**
+   - Users can hover over elements on the Data Quality Management page to view details or access additional functionalities.
+   - The application displays the username and user image in the top right corner, enhancing the personalization of the user interface.
+
+4. **Automated Testing:**
+   - The project includes automated tests for key functionalities, such as login processes, page navigation, and specific interactions within the Data Quality Management section.
+   - Utilizes Selenium WebDriver for browser-based testing, pytest for structuring tests, and integrates with Azure Pipelines for continuous integration and testing.
+   - Please don't implement any HTTP or flask, I just want to run my framework with Pytest only.
+
+5. **Logging and Code Maintenance:**
+   - Address the logging issue to ensure accurate and efficient logging of application activities and errors.
+   - Remove any unused code to streamline the application's codebase, improving maintainability and performance.
+   - Create a `.txt` file containing all file and framework related details of MAPAPI, ensuring clear documentation and easy access to framework specifications. Additionally, update a `.txt` file describing the working of every file, directory-wise. As per the new feature request, ensure this description does not include the project structure but focuses on the functionality of each file without mentioning any backend, frontend, or API-related aspects.
+   - Optimize the configuration management by removing redundant browser and URL details from `config.py` and `config.yaml`, ensuring a single, streamlined source for these settings.
+
+### Technical Specification
+
+- **Platform/Technologies:**
+  - The application is a web-based platform developed primarily in Python, leveraging Selenium for automated browser interaction and pytest for testing.
+  - It uses Azure Pipelines for CI/CD, ensuring automated testing and deployment processes.
+  - The application will not use Flask as part of its technology stack, aligning with the requirement to focus on Pytest for framework execution without implementing any HTTP or Flask components. Additionally, any API implementation is removed to comply with the new feature request.
+
+- **Dependencies:**
+  - The project utilizes several Python packages including Selenium for web automation, PyYAML for configuration management, pytest for testing, and others as listed in the `requirements.txt`.
+
+- **Testing and CI/CD:**
+  - Automated tests are structured using pytest, with configurations for running these tests in Azure Pipelines, ensuring continuous testing across development.
+  - The `azure-pipelines.yml` file outlines the steps for setting up Python, installing dependencies, running tests, and publishing test results.
+
+- **Configuration Management:**
+  - Utilizes `.env` for environment variables and `config.yaml` for application-specific configurations like application URL, browser type, and user credentials for testing.
+  - The `config.py` script loads these configurations for use in tests, providing a dynamic way to manage settings. Redundant browser and URL details have been removed from `config.py` and `config.yaml` to optimize configuration management.
+
+- **Page Object Model (POM):**
+  - Adopts the Page Object Model (POM) for organizing test code, enhancing maintainability and reusability.
+  - Includes separate modules for page actions (`pages` directory) and element locators (`locators` directory), facilitating easy updates to tests when UI changes.
+
+- **Exception Handling and Logging:**
+  - Custom exceptions (e.g., `ElementNotFoundException`, `NavigationException`, `LoginPageException`) improve error reporting and handling.
+  - A logging configuration (`logging_config.py`) is set up for detailed logging of test execution, aiding in debugging and monitoring test runs. The logging issue will be addressed to ensure this system works as intended.
+
+- **Selenium WebDriver Configuration:**
+  - Configured to run tests in headless mode for browsers like Chrome, with options for running in non-headless mode for interactive debugging.
+  - Supports multiple browsers, though primarily configured for Chrome in the provided setup.
