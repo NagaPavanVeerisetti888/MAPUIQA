@@ -1,48 +1,29 @@
 trigger:
- - test_branch
+  - test_branch
 pool:
   name: Default
   Agent: LVDMS-PROD-IR-SH
-
 steps:
-  # Use Python 3.11
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '3.11'
-    displayName: 'Use Python $(python.version)'
-
-  # Install dependencies
+    displayName: Use Python $(python.version)
   - script: |
       python -m pip install --upgrade pip
       pip install -r requirements.txt
-    displayName: 'Install dependencies'
-
-  # Run tests with pytest and collect coverage
+    displayName: Install dependencies
   - script: |
       pip install pytest pytest-azurepipelines pytest-csv
       pytest --csv=report.csv --csv-columns=id,status,duration,name
-    displayName: 'Run tests with pytest and generate CSV report'
-
-  # Publish test results (uncomment if needed)
-  # - task: PublishTestResults@2
-  #   inputs:
-  #     testResultsFormat: 'JUnit'
-  #     testResultsFiles: '/.xml'
-
-  # Create artifact
-  - script: |
-      python setup.py sdist
-    displayName: 'Artifact creation'
-    
-    # Copy files to artifact staging directory
+    displayName: Run tests with pytest and generate CSV report
   - task: CopyFiles@2
     inputs:
-      targetFolder: $(Build.ArtifactStagingDirectory)
-
-  # Publish build artifacts
+      SourceFolder: $(System.DefaultWorkingDirectory)
+      Contents: '*/'
+      TargetFolder: $(Build.ArtifactStagingDirectory)
+    displayName: Copy files to artifact staging directory
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-      ArtifactName: 'dist'
-      publishLocation: 'Container'
-    
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: dist
+      publishLocation: Container
