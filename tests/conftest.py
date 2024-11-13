@@ -6,7 +6,9 @@ from tests.pages.login_page import LoginPage
 import logging
 import time
 
+from tests.utils.logging_config import configure_logging
 
+configure_logging()
 def load_config():
     # TODO need to fix the config.yaml path issue
     with open(r"tests/config.yaml", "r") as file:
@@ -20,7 +22,7 @@ def config():
 @pytest.fixture(scope="session")
 def browser(config):
     browser_type = config['browser']['type']
-    headless = config['browser'].get('headless', True)
+    headless = config['browser'].get('headless', False)
     try:
         logging.debug(f"Setting up the browser: {browser_type}, headless: {headless}")
         if browser_type == "chrome":
