@@ -5,3 +5,12 @@ app:
 
 browser:
   type: "chrome"
+
+
+app:
+  url: "https://map-dev-ui.azurewebsites.net/"
+  username: "${APP_USERNAME}"
+  password: "${APP_PASSWORD}"
+
+browser:
+  type: "chrome"
