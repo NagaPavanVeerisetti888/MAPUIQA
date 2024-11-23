@@ -27,3 +27,7 @@ steps:
       PathtoPublish: $(Build.ArtifactStagingDirectory)
       ArtifactName: dist
       publishLocation: Container
+
+variables:
+  APP_USERNAME: $(your_username_variable)
+  APP_PASSWORD: $(your_password_variable)
