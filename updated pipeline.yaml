@@ -1,0 +1,45 @@
+trigger:
+  - test_branch
+pool:
+  name: Default
+  Agent: LVDMS-PROD-IR-SH
+variables:
+  # Declare your variables for substitution
+  app.username: $(APP_USERNAME)
+  app.password: $(APP_PASSWORD)
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.11'
+    displayName: Use Python $(python.version)
+
+  - script: |
+      python -m pip install --upgrade pip
+      pip install -r requirements.txt
+    displayName: Install dependencies
+
+  # Substitute variables in the config.yaml file
+  - task: FileTransform@2
+    inputs:
+      folderPath: $(System.DefaultWorkingDirectory)
+      fileType: yaml
+    displayName: Substitute variables in config.yaml
+
+  - script: |
+      pip install pytest pytest-azurepipelines pytest-csv
+      pytest --csv=report.csv --csv-columns=id,status,duration,name
+    displayName: Run tests with pytest and generate CSV report
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: $(System.DefaultWorkingDirectory)
+      Contents: '*/'
+      TargetFolder: $(Build.ArtifactStagingDirectory)
+    displayName: Copy files to artifact staging directory
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
+      ArtifactName: dist
+      publishLocation: Container
