@@ -1,5 +1,5 @@
 trigger:
-  - test_branch
+  - develop
 pool:
   name: Default
   Agent: LVDMS-PROD-IR-SH
@@ -8,26 +8,32 @@ steps:
     inputs:
       versionSpec: '3.11'
     displayName: Use Python $(python.version)
+  - task: AzureKeyVault@2
+    inputs:
+      azureSubscription: 'LVDMS-DEV-UAT-WIF'
+      KeyVaultName: lv-map-temp-kv
+      SecretsFilter: '*'
+    displayName: Fetch secrets from Azure Key Vault
   - script: |
       python -m pip install --upgrade pip
       pip install -r requirements.txt
     displayName: Install dependencies
   - script: |
-      pip install pytest pytest-azurepipelines pytest-csv
-      pytest --csv=report.csv --csv-columns=id,status,duration,name
-    displayName: Run tests with pytest and generate CSV report
+      mkdir -p $(Build.ArtifactStagingDirectory)\reports
+    displayName: create reports directory
+  - script: |
+      pytest --html=$(Build.ArtifactStagingDirectory)\reports\test_report.html
+    displayName: Run Pytest and Generate Reports
+      # Copy the report to artifact staging directory
   - task: CopyFiles@2
     inputs:
-      SourceFolder: $(System.DefaultWorkingDirectory)
-      Contents: '*/'
-      TargetFolder: $(Build.ArtifactStagingDirectory)
-    displayName: Copy files to artifact staging directory
+      SourceFolder: $(Build.ArtifactStagingDirectory)/reports
+      Contents: '*'
+      TargetFolder: $(System.DefaultWorkingDirectory)/reports
+    displayName: Copy reports to artifact staging directory
+
   - task: PublishBuildArtifacts@1
     inputs:
-      PathtoPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: dist
+      PathtoPublish: $(Build.ArtifactStagingDirectory)/reports
+      ArtifactName: reports
       publishLocation: Container
-
-variables:
-  APP_USERNAME: $(your_username_variable)
-  APP_PASSWORD: $(your_password_variable)
